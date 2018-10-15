@@ -1,7 +1,9 @@
+
 /*
-* assignment 5 by Aaron Ma
-*
-*
+* Assignment 1 
+* By Aaron Ma
+* created oct 12
+* last modified oct 15
 */
 void setup(){
    size(500,680); //sets screen width and height

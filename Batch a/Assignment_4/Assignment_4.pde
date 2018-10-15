@@ -1,3 +1,10 @@
+
+/*
+* Assignment 1 
+* By Aaron Ma
+* created oct 10
+* last modified oct 15
+*/
 void setup(){ 
  size(400,700); //set size
  x1 = 0; //init all variables

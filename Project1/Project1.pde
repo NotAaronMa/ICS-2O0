@@ -1,8 +1,7 @@
-
 void setup(){
   size(800,600);
   sn = new smoothedNoise(width,height,1,20,3);
-  mountainHeight = new fourierSeries(2,10).genFourier(20,width,10);
+  mountainHeight = new fourierSeries(2,0.5).genFourier(20,width,10,1000);
 
   
 }
@@ -125,10 +124,9 @@ public class smoothedNoise{ // a class defining 2d array generated using random 
 }
 
 class fourierSeries{ // a simple class for aproximating an infinite series of sine functions in order to generate the mountains
-  int[]vals;
   float coeficient;
   int bottemMultiplier;
-  public fourierSeries(int bottemMultiplier, int coeficient){
+  public fourierSeries(int bottemMultiplier, float coeficient){
    
     this.bottemMultiplier = bottemMultiplier;
     this.coeficient = coeficient;
@@ -138,17 +136,17 @@ class fourierSeries{ // a simple class for aproximating an infinite series of si
      int bottem = 1;
      double total = 0;
      for(int i = 0; i < accuracy; i++){
-       total += sin(r/bottem);
+       total += r*sin(r/bottem);
        bottem *= bottemMultiplier;
      }
      return total * coeficient;
      
   }
   
-  public double[] genFourier(int accuracy,int w, int diffPoints){
+  public double[] genFourier(int accuracy,int w, int diffPoints, int phaseShift){
     double[]d = new double[w];
     for(int i = 0; i < w; i++){
-      d[i] = yAt(i*diffPoints,accuracy);
+      d[i] = yAt(i*diffPoints- phaseShift*diffPoints,accuracy);
     }
     return d;
   }

@@ -2,39 +2,57 @@ int tileSide = 8;
 smoothedNoise sn;
 void setup() {
 
-  sn  = new smoothedNoise(width/tileSide, height/tileSide, 1, 2, 7);
+  sn  = new smoothedNoise(width/tileSide, height/tileSide, 1, 2, 9);
   // 
   size(800, 600);
 }
 mountain[]mountains = {
   //            x  peak   w   h
-  new mountain(250, 300, 300, 300),
-  new mountain(400, 400, 700, 400), 
-   
-  new mountain(300, 300, 100, 200), 
-  new mountain(400, 300, 100, 300), 
-  new mountain(500, 400, 100, 400), 
-  new mountain(600, 300, 100, 300), 
-  new mountain(700, 200, 100, 200), 
+  new mountain(250, 350, 700, 300,70,255), 
+  new mountain(400, 450, 700, 400,70,255), 
+  new mountain(600, 400, 500, 400,70,255)
 };
 
+boolean keyDown;
+void keyPressed(){
+  keyDown = true;
+}
+void keyReleased(){
+  keyDown = false; 
+}
 void draw() {
-  background(255);
-  double[][] noise = sn.noiseImage();
-  for(int i = 0; i < noise.length; i++){
-    for(int j = 0; j < noise[0].length; j++){
-      fill(encodeColor(30,80,255,(int)(noise[i][j]*255)));
-      strokeWeight(0);
-      stroke(encodeColor(30,8,255,(int)(noise[i][j]*255)));
-      rect(i*tileSide, j*tileSide, tileSide,tileSide);
-    }
+  if(!keyDown){
+    background(0);
+  
+  }else{
+    daySky();
+     
   }
   
   for (int i = 0; i < mountains.length; i++) {
     mountains[i].render();
   }
+  fill(encodeColor(40,105,40,255));
+  rect(0, height - 200,width, height);
+  fill(70);
+  
 }
+public void daySky(){
+    background(255); 
+    double[][] noise = sn.noiseImage();
+    for(int i = 0; i < noise.length; i++){
+      for(int j = 0; j < noise[0].length; j++){
+        fill(encodeColor(30,80,255,(int)(noise[i][j]*255)));
+        strokeWeight(0);
+        stroke(encodeColor(30,8,255,(int)(noise[i][j]*255)));
+        rect(i*tileSide, j*tileSide, tileSide,tileSide);
+      }
+    }
+}
+public void nightSky(){
 
+
+}
 
 
 
@@ -48,25 +66,32 @@ public int encodeColor(int r, int g, int b, int a) { //utility method to make my
   c+= a << 24; //set alpha channel to 255
   return c;
 }
+class pair{
+ float a, b; 
+  
+}
 class mountain {
   float x, peak, h, w;
+  int color1, color2;
 
 
-  public mountain(int x, int y, int w, int h) {
+  public mountain(int x, int y, int w, int h, int color1, int color2) {
     this.x = x;
     this.peak = y;
     this.h =h;
     this.w = w;
+    this.color1 = color1;
+    this.color2 = color2;
   }
   public void render() {
     stroke(0);
-    float tan =(w/2)/h;
-    fill(30);
+    
+    fill(color1);
     triangle(
       x, height - peak, 
       x - w/2, height - peak +h, 
       x + w/2, height - peak +h);
-    fill(255);
+    fill(color2);
     float n = h/3;
     triangle(
       x,         height-peak, 

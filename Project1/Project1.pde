@@ -1,3 +1,4 @@
+
 void setup() {
   noise  = new smoothedNoise(width/tileSide, height/tileSide, 1, 1,7);
   stars = new Vector2[1024];
@@ -23,7 +24,8 @@ void keyReleased(){
   timeScale = 1; 
 }
 void draw() {
-  time = normalizeAngle(time); 
+  time = normalizeAngle(time);
+  
   sunX = (width+100)*(time/180f);
   sunY = -250*sin(radians(time/0.9f)) + 300;
   renderSky(time);
@@ -124,6 +126,7 @@ class mountain {
     );
   }
 }
+
 class smoothedNoise { // a class defining 2d array generated using random noise and smothed using a boxblur
   int w, h, range, interp, interpw;
   public smoothedNoise(int w, int h, int range, int interp, int interpw) {
@@ -143,6 +146,7 @@ class smoothedNoise { // a class defining 2d array generated using random noise 
     for (int i = 0; i < interp; i++) {
       boxblur(ni);
     }
+
     return ni;
   }  
   public void boxblur(double[][]noise) { //nearest neighbor interpolation

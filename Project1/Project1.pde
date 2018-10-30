@@ -1,63 +1,84 @@
-int tileSide = 8;
-smoothedNoise sn;
 void setup() {
-
-  sn  = new smoothedNoise(width/tileSide, height/tileSide, 1, 2, 9);
-  // 
+  noise  = new smoothedNoise(width/tileSide, height/tileSide, 1, 1,7);
+  stars = new Vector2[1024];
+  for(int i = 0; i < stars.length; i++){
+    stars[i] = new Vector2(random(width),random(height)); 
+  }
   size(800, 600);
 }
-mountain[]mountains = {
-  //            x  peak   w   h
-  new mountain(250, 350, 700, 300,70,255), 
-  new mountain(400, 450, 700, 400,70,255), 
-  new mountain(600, 400, 500, 400,70,255)
-};
-
 boolean keyDown;
+int tileSide = 8;
+smoothedNoise noise;
+Vector2[]stars;
+mountain[]mountains = {
+  //            x  peak   w   h     base color, snowcap color
+  new mountain(250, 350, 700, 300,     90,          90), 
+  new mountain(400, 450, 700, 400,     90,          90), 
+  new mountain(600, 400, 500, 400,     90,          90)
+};
 void keyPressed(){
-  keyDown = true;
+  timeScale = 20;
 }
 void keyReleased(){
-  keyDown = false; 
+  timeScale = 1; 
 }
 void draw() {
-  if(!keyDown){
-    background(0);
-  
-  }else{
-    daySky();
-     
-  }
-  
+  time = normalizeAngle(time); 
+  sunX = (width+100)*(time/180f);
+  sunY = -250*sin(radians(time/0.9f)) + 300;
+  renderSky(time);
   for (int i = 0; i < mountains.length; i++) {
     mountains[i].render();
   }
   fill(encodeColor(40,105,40,255));
   rect(0, height - 200,width, height);
   fill(70);
-  
+  time += timeScale; 
 }
-public void daySky(){
-    background(255); 
-    double[][] noise = sn.noiseImage();
-    for(int i = 0; i < noise.length; i++){
-      for(int j = 0; j < noise[0].length; j++){
-        fill(encodeColor(30,80,255,(int)(noise[i][j]*255)));
-        strokeWeight(0);
-        stroke(encodeColor(30,8,255,(int)(noise[i][j]*255)));
-        rect(i*tileSide, j*tileSide, tileSide,tileSide);
+float sunX = 100;
+float sunY = 100;
+int timeScale = 1;
+int time = 0;
+public int normalizeAngle(int theta){
+   return theta%=360; 
+}
+public void renderSky(int time){
+    double[][] noiseArr = noise.noiseImage();
+    if(sunX > width+100){
+     sunX = 0; 
+    }
+      background(255);
+      for(int i = 0; i < noiseArr.length; i++){
+        for(int j = 0; j < noiseArr[0].length; j++){
+          fill(encodeColor(30,80,255,(int)(noiseArr[i][j]*255)));
+          strokeWeight(0);
+          stroke(encodeColor(30,8,255,(int)(noiseArr[i][j]*255)));
+          rect(i*tileSide, j*tileSide, tileSide,tileSide);
+        }
       }
+      fill(encodeColor(255,255,0,255));
+      ellipse(sunX, sunY, 100,100);
+    if(time > 180){
+      background(0);
+      for(int i = 0; i < noiseArr.length; i++){
+        for(int j = 0; j < noiseArr[0].length; j++){
+            strokeWeight(0);
+            stroke(0);
+            //stroke(encodeColor(250,5,250,(int)(noiseArr[i][j]*255)));
+            fill(encodeColor(50,5,50,(int)(noiseArr[i][j]*255)));
+            rect(i*tileSide, j*tileSide, tileSide,tileSide);         
+       }
+      }
+      stroke(encodeColor(255,255,0,200));
+      strokeWeight(2);
+      for(int i = 0; i < stars.length; i++){
+        float x = stars[i].a;
+        float y = stars[i].b;
+        point(x,y);
+      }
+      strokeWeight(0);
     }
 }
-public void nightSky(){
-
-
-}
-
-
-
-
-
 public int encodeColor(int r, int g, int b, int a) { //utility method to make my life easier
   int c = 0;
   c += r<<16; //left shift by 16 for red channel
@@ -66,15 +87,16 @@ public int encodeColor(int r, int g, int b, int a) { //utility method to make my
   c+= a << 24; //set alpha channel to 255
   return c;
 }
-class pair{
+class Vector2{
  float a, b; 
-  
+ public Vector2(float a, float b){
+     this.a = a;
+     this.b =b;
+ }
 }
 class mountain {
   float x, peak, h, w;
   int color1, color2;
-
-
   public mountain(int x, int y, int w, int h, int color1, int color2) {
     this.x = x;
     this.peak = y;
@@ -87,21 +109,21 @@ class mountain {
     stroke(0);
     
     fill(color1);
+    stroke(color1);
     triangle(
       x, height - peak, 
       x - w/2, height - peak +h, 
       x + w/2, height - peak +h);
     fill(color2);
+    stroke(color2);
     float n = h/3;
     triangle(
       x,         height-peak, 
       x - w/6, height - peak+n, 
       x + w/6, height - peak+n
     );
-
   }
 }
-
 class smoothedNoise { // a class defining 2d array generated using random noise and smothed using a boxblur
   int w, h, range, interp, interpw;
   public smoothedNoise(int w, int h, int range, int interp, int interpw) {
@@ -121,11 +143,8 @@ class smoothedNoise { // a class defining 2d array generated using random noise 
     for (int i = 0; i < interp; i++) {
       boxblur(ni);
     }
-
     return ni;
   }  
-
-
   public void boxblur(double[][]noise) { //nearest neighbor interpolation
     for (int i = 0; i < noise.length; i++) {
       for (int j = 0; j < noise[0].length; j++) {
@@ -139,7 +158,6 @@ class smoothedNoise { // a class defining 2d array generated using random noise 
     for (int i = Xtr; i < l+Xtr; i++) {
       for (int j = Ytr; j < l+Ytr; j++) {
         boolean flag = true;
-
         if (i >= a.length) {
           flag = false;
         }

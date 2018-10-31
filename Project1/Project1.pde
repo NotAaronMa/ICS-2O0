@@ -1,6 +1,6 @@
 
 void setup() {
-  noise  = new smoothedNoise(width/tileSide, height/tileSide, 1, 1,7);
+  noise  = new smoothedNoise(width/tileSide, height/tileSide, 1, 1,5);
   stars = new Vector2[1024];
   for(int i = 0; i < stars.length; i++){
     stars[i] = new Vector2(random(width),random(height)); 
@@ -18,16 +18,13 @@ mountain[]mountains = {
   new mountain(600, 400, 500, 400,     90,          90)
 };
 void keyPressed(){
-  timeScale = 20;
+  timeScale = 3;
 }
 void keyReleased(){
-  timeScale = 1; 
+  timeScale = 0.25f; 
 }
 void draw() {
   time = normalizeAngle(time);
-  
-  sunX = (width+100)*(time/180f);
-  sunY = -250*sin(radians(time/0.9f)) + 300;
   renderSky(time);
   for (int i = 0; i < mountains.length; i++) {
     mountains[i].render();
@@ -35,42 +32,76 @@ void draw() {
   fill(encodeColor(40,105,40,255));
   rect(0, height - 200,width, height);
   fill(70);
+  fill(encodeColor(30,50,205,255));
+  ellipse(width/2, height-100 , 700,150);
   time += timeScale; 
 }
-float sunX = 100;
-float sunY = 100;
-int timeScale = 1;
-int time = 0;
-public int normalizeAngle(int theta){
+float timeScale = 1;
+float time = 0;
+public float normalizeAngle(float theta){
    return theta%=360; 
 }
-public void renderSky(int time){
-    double[][] noiseArr = noise.noiseImage();
-    if(sunX > width+100){
-     sunX = 0; 
-    }
-      background(255);
-      for(int i = 0; i < noiseArr.length; i++){
+
+public int genBgColor(float time, int alpha){ //time is an angle between 0 and 360 representing how far allong the sun is across it's path
+  //System.out.println(time);
+  if(0<=time && time<30){ //time is between 0 and 360 return dark grey
+     return encodeColor(200, 200, 200,alpha);
+  }else if(30 <= time && time < 150){ //if time is between 60 and 150 white
+    return encodeColor(255,255,255,alpha);
+  }else if(150 <= time && time < 180){ //if time is between 150 and 180 grey
+   return encodeColor(200, 200, 200,alpha); 
+  }else if(180 <= time && time < 210){ // if time is between 180 and 210 return purple
+   return encodeColor(61,0,55,255);
+  }else if(210 <= time && time < 330){ // if time is between 210 and 240 return black
+    return encodeColor(0,0,0,alpha);
+  }else if(330 <= time && time < 360){ // if time is between 330 and 360 return purple
+    return encodeColor(61,0,55,alpha);
+  }
+  return encodeColor(255,255,255,255); //default return white
+  
+  
+  
+}
+
+public void renderNoise(int r,int g,int b, double[][]noiseArr){
+    for(int i = 0; i < noiseArr.length; i++){
         for(int j = 0; j < noiseArr[0].length; j++){
-          fill(encodeColor(30,80,255,(int)(noiseArr[i][j]*255)));
-          strokeWeight(0);
-          stroke(encodeColor(30,8,255,(int)(noiseArr[i][j]*255)));
-          rect(i*tileSide, j*tileSide, tileSide,tileSide);
-        }
-      }
-      fill(encodeColor(255,255,0,255));
-      ellipse(sunX, sunY, 100,100);
-    if(time > 180){
-      background(0);
-      for(int i = 0; i < noiseArr.length; i++){
-        for(int j = 0; j < noiseArr[0].length; j++){
+            int c1 = encodeColor(r,g,b,(int)(noiseArr[i][j]*255));
             strokeWeight(0);
-            stroke(0);
-            //stroke(encodeColor(250,5,250,(int)(noiseArr[i][j]*255)));
-            fill(encodeColor(50,5,50,(int)(noiseArr[i][j]*255)));
+            stroke(c1);
+            fill(c1);
             rect(i*tileSide, j*tileSide, tileSide,tileSide);         
        }
-      }
+    } 
+}
+public void renderSun(float time, boolean day){
+    float sunX, sunY;
+
+    //caluclate the position of the sun based on a sine function
+    sunX = (width+100)*(time/180f);
+    sunY = -250*sin(radians(time/0.9f)) + 300;
+    strokeWeight(0);
+    if(day){
+        fill(encodeColor(255,255,0,255));
+        ellipse(sunX, sunY, 100,100);
+    }else{
+        fill(200);
+        ellipse(sunX, sunY, 70,70);
+    }
+    
+}
+public void renderSky(float time){
+   //get a noise image from the random noise generator
+    double[][] noiseArr = noise.noiseImage();
+     //the x and y of the sun
+    float sunX, sunY;
+    background(genBgColor(time,255));
+    //If it is night
+    if(time > 180){ 
+      time -= 180; 
+      renderNoise(0,0,0,noiseArr);
+      
+      
       stroke(encodeColor(255,255,0,200));
       strokeWeight(2);
       for(int i = 0; i < stars.length; i++){
@@ -78,7 +109,12 @@ public void renderSky(int time){
         float y = stars[i].b;
         point(x,y);
       }
-      strokeWeight(0);
+      renderSun(time,false);
+    // if it is day
+    }else{
+     
+      renderNoise(50,70,230,noiseArr);
+      renderSun(time,true);
     }
 }
 public int encodeColor(int r, int g, int b, int a) { //utility method to make my life easier
@@ -161,19 +197,7 @@ class smoothedNoise { // a class defining 2d array generated using random noise 
     double total = 0;
     for (int i = Xtr; i < l+Xtr; i++) {
       for (int j = Ytr; j < l+Ytr; j++) {
-        boolean flag = true;
-        if (i >= a.length) {
-          flag = false;
-        }
-        if (j >= a[0].length) {
-          flag = false;
-        }
-        if (i < 0) {
-          flag = false;
-        }
-        if (j < 0) {
-          flag = false;
-        }
+        boolean flag = inBounds(a.length, a[0].length, i ,j);
         if (flag) {
           total+= a[i][j];
           n++;
@@ -181,5 +205,8 @@ class smoothedNoise { // a class defining 2d array generated using random noise 
       }
     }
     return total/n;
+  }
+  private boolean inBounds(int mx, int my, int x, int y){
+     return x < mx && y < my && x >= 0 && y >= 0; 
   }
 }

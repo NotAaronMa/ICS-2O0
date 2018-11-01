@@ -1,6 +1,5 @@
 
 void setup() {
-  noise  = new smoothedNoise(width/tileSide, height/tileSide, 1, 1,5);
   stars = new Vector2[1024];
   for(int i = 0; i < stars.length; i++){
     stars[i] = new Vector2(random(width),random(height)); 
@@ -9,7 +8,6 @@ void setup() {
 }
 boolean keyDown;
 int tileSide = 8;
-smoothedNoise noise;
 Vector2[]stars;
 mountain[]mountains = {
   //            x  peak   w   h     base color, snowcap color
@@ -45,11 +43,11 @@ public float normalizeAngle(float theta){
 public int genBgColor(float time, int alpha){ //time is an angle between 0 and 360 representing how far allong the sun is across it's path
   //System.out.println(time);
   if(0<=time && time<30){ //time is between 0 and 360 return dark grey
-     return encodeColor(200, 200, 200,alpha);
+     return encodeColor(130, 150, 155,alpha);
   }else if(30 <= time && time < 150){ //if time is between 60 and 150 white
-    return encodeColor(255,255,255,alpha);
+    return encodeColor(130,150,255,alpha);
   }else if(150 <= time && time < 180){ //if time is between 150 and 180 grey
-   return encodeColor(200, 200, 200,alpha); 
+   return encodeColor(130,150,255,alpha); 
   }else if(180 <= time && time < 210){ // if time is between 180 and 210 return purple
    return encodeColor(61,0,55,255);
   }else if(210 <= time && time < 330){ // if time is between 210 and 240 return black
@@ -91,17 +89,12 @@ public void renderSun(float time, boolean day){
     
 }
 public void renderSky(float time){
-   //get a noise image from the random noise generator
-    double[][] noiseArr = noise.noiseImage();
-     //the x and y of the sun
+    //the x and y of the sun
     float sunX, sunY;
     background(genBgColor(time,255));
     //If it is night
     if(time > 180){ 
       time -= 180; 
-      renderNoise(0,0,0,noiseArr);
-      
-      
       stroke(encodeColor(255,255,0,200));
       strokeWeight(2);
       for(int i = 0; i < stars.length; i++){
@@ -112,8 +105,7 @@ public void renderSky(float time){
       renderSun(time,false);
     // if it is day
     }else{
-     
-      renderNoise(50,70,230,noiseArr);
+      //renderNoise(50,70,230,noiseArr);
       renderSun(time,true);
     }
 }
@@ -160,53 +152,5 @@ class mountain {
       x - w/6, height - peak+n, 
       x + w/6, height - peak+n
     );
-  }
-}
-
-class smoothedNoise { // a class defining 2d array generated using random noise and smothed using a boxblur
-  int w, h, range, interp, interpw;
-  public smoothedNoise(int w, int h, int range, int interp, int interpw) {
-    this.w = w;
-    this.h = h;
-    this.range =range;
-    this.interp = interp;
-    this.interpw = interpw;
-  }
-  double[][] noiseImage() {
-    double[][]ni = new double[w][h];
-    for (int i = 0; i < w; i++) {
-      for (int j = 0; j < h; j++) {
-        ni[i][j] = random(range);
-      }
-    }
-    for (int i = 0; i < interp; i++) {
-      boxblur(ni);
-    }
-
-    return ni;
-  }  
-  public void boxblur(double[][]noise) { //nearest neighbor interpolation
-    for (int i = 0; i < noise.length; i++) {
-      for (int j = 0; j < noise[0].length; j++) {
-        noise[i][j] = getAverage(noise, i-interpw/2, j-interpw/2, interpw);
-      }
-    }
-  }  
-  public double getAverage(double[][]a, int Xtr, int Ytr, int l) {
-    int n = 0;
-    double total = 0;
-    for (int i = Xtr; i < l+Xtr; i++) {
-      for (int j = Ytr; j < l+Ytr; j++) {
-        boolean flag = inBounds(a.length, a[0].length, i ,j);
-        if (flag) {
-          total+= a[i][j];
-          n++;
-        }
-      }
-    }
-    return total/n;
-  }
-  private boolean inBounds(int mx, int my, int x, int y){
-     return x < mx && y < my && x >= 0 && y >= 0; 
   }
 }

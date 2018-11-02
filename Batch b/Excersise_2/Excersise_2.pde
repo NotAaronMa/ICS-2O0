@@ -12,11 +12,13 @@ void setup(){
          col1 += 255/((4/7f)*height / rad1) + 1;
      }
    }
-   int a = 255;
+   noStroke();
+   fill(encodeColor(155, 15, 240, 3));
    float centerY = (4/7f)*height;
    centerY = (height - 150);
-   for(int rad = 0; rad < 255; rad++){
-      fill(encodeColor(155, 15, 240, 1));
+   for(int rad = 0; rad < 270; rad++){
+       
+     
       ellipse(width/2, centerY, rad, rad);
       
    }

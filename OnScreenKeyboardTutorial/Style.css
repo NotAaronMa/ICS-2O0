@@ -1,0 +1,38 @@
+img{
+    image-rendering: high-quality;
+    image-rendering: crisp-edges;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0px;
+}
+figure{
+    text-align: left;
+    font-size: 18px;
+}
+
+div{
+    display: block;
+    width: 75%;
+    color: black;
+    margin-top: 10px;
+    margin-bottem: 10px;
+    margin-left: 40px;
+    margin-right: 40px;
+    font-family: verdana;
+    font-size: 20px;
+}
+
+h1{
+    text-align: left;
+    margin-left: 40px;
+    font-size: 40px;
+    
+}
+
+h2{	
+   
+    text-align: left;
+    margin-left: 40px;
+    font-size: 18px;
+    color: grey;
+}

@@ -1,0 +1,11 @@
+.grid-container{
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-columns: 33% 33% 33%;
+    background-color: blue;
+}
+
+.grid-item{
+    background-color: red;
+    width: 100%;
+}

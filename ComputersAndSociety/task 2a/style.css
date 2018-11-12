@@ -1,20 +1,46 @@
 
+figure{
 
+}
 
+img{
 
-p{
-    text-align: justify;
-    font-size: 15px;
-    font-family: Consolas;
-    width: 100%;
+}
+code {
+    font-family: monospace;
+    border: 2Spx solid #ccc;
+    background-color: #f9f9f9;
+    color: #52595d;
 }
 
 .grid-container{
     display: grid;
     justify-content: space-evenly;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 45% 45%;
+    grid-collumn-gap: 2.5%
 }
 
 .grid-item{
-
+   
 }
+
+h1{
+    margin-left: 3%;
+    font-family: Consolas;
+    font-size: 15px;
+}
+
+h2{
+    font-family: Consolas;
+    font-size: 12px;
+    margin-left: 3%;
+}
+
+p{
+    text-align: justify;
+    font-size: 12px;
+    font-family: Consolas;
+    width: 100%;
+}
+
+

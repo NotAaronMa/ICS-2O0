@@ -1,12 +1,18 @@
 <!DOCTYPE HTML>
 <head>
     <title> Network Security </title>
-	<link rel = "stylesheet" href = "style.css">
+    <link rel = "stylesheet" href = "style.css">
 	
 </head>
 
 <header>
-	
+	<h1>
+		Common network security holes and how to avoid them.
+	</h1>
+	<h2>
+	    Author: Aaron Ma <br>
+		Date written 2018/11/12
+	</h2>
 </header>
 
 <body>
@@ -19,29 +25,34 @@
 			private data of millions of people. Therefore, being knowledgable of possible attacks and how 
 			to avoid them is an important skill in the 21st century.
 		</p>
-		
 		<p>
-			The first attack that we will be covering is a denial of service attack.This is done by getting many computers
-			to sent a large amout of ping or POST requests to a server. The server will have to handle all these requests 
-			and will most likely go down. One way to get around these attacks are to use a firewall to limit acess to your 
-			server. A firewall uses techniques such as a packet filter, a proxy server or blocking certain protocals in order
-			to keep a network secure. A ddos Attack does not require much skill to pull off and can be done by almost anyone who
-			has the required software.
+			The first attack that we will be covering is a denial of service attack.This is done by 
+			getting many computers to sent a large amout of ping or POST requests to a server. 
+			The server will have to handle all these requests and will most likely go down. One way 
+			to get around these attacks are to use a firewall to limit acess to your server using a firewall.
+			A firewall uses techniques such as a packet filter, a proxy server or blocking certain protocals in order
+			to keep a network secure. A ddos Attack does not require much skill to pull off and can be done by almost 
+			anyone who has the required software.
 		</p>
 		
 		<p>
-			Another common attack is the SQL injection. an SQL injection is a technique used to get a server to execute an SQL query. This 
-			vunrability is caused when input to a database isn't sanitized allowing a hacker to inject code into the query making the server
-			excecute unintended commands. For instance, typing in  <b> " DROP TABLE a; "</b> will cause a server to delete the table named "a" 
-			someone who knows SQL can use this to wreak havoc on a server making it delete all tables or read all the data stored in the database.
-			The way to avoid this is to sanatize inputs. By checking the input for SQL commands and string breaks, this vunrability can be easily
-			nullified.
-		</p>		
+			Another common attack is the SQL injection. an SQL injection is a technique used to get 
+			a server to execute an SQL query. This vunrability is caused when input to a database isn't sanitized 
+			allowing a hacker to inject code into the query making the server excecute unintended commands. 
+			For instance, typing in  <code> " DROP TABLE a; ""</code> will cause a server to delete the table named "a" someone 
+			who knows SQL can use this to wreak havoc on a server making it delete all tables or read all the data stored in
+			the database. The way to avoid this is to sanatize inputs. By having a script remove html tags and sql queries from
+			the input, one can nullify this vurnability.
+		</p>
+			
+		<p>
+			An XSS attack is another common attack where the user embedds scripts in his input.
+		</p>
+	
 	</div>
   
-  
-  
-  
-  <div class="grid-item">2</div>
+    <div class="grid-item">
+	
+    </div>
 </div>
 <body>

@@ -10,7 +10,12 @@ html{
     grid-collumn-gap: 2.5%
     width:100%;
 }
-
+.website-banner{
+	display: grid;
+	grid-collumn-gap: 0px;
+	grid-template-columns: 
+	
+}
 .article-body{
     display: grid;
     justify-content: space-evenly;
@@ -21,5 +26,5 @@ html{
 }
 
 .grid-item{
- 
+	
 }

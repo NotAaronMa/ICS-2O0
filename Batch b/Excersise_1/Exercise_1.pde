@@ -20,13 +20,16 @@ void setup(){
 void draw(){
   background(255);
   noStroke();
- 
-  for(int i = 0; i < width/rad + 1; i++){
-    for(int j = 0; j < height/rad+1; j++){
+  int i = 0,j = 0;
+  while(i < alpha.length){
+    while(j < alpha[0].length){
       //double a = random(1);
       fill(encodeColor(255, 81, 226,(int)(alpha[i][j])));
       ellipse(i*rad-rad/2, j*rad-rad/2, rad,rad); 
+      j++;
     }
+    j = 0;
+    i++;
   }
   fill(255);
   rect(mouseX, 0, width, height);

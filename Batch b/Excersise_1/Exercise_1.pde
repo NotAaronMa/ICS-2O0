@@ -1,5 +1,5 @@
 
-int rad = 16;
+int rad = 8;
 int[][]alpha;
 void setup(){
   size(500,680);

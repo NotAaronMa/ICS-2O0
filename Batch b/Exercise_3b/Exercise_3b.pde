@@ -1,10 +1,19 @@
+/*
+  Author: Aaron Ma
+  Date Finished: 11/21/2018
+*/
 void setup(){
+   //makes so that draw() does not run
    noLoop();
+   //set size
    size(500,700);
+   //background white
    background(255);
-   
+   //radius
    int rad1 = 20;
+   //set i to 0
    int i = 0;
+   //
    while( i < width/rad1 +2){
      int col1 = 0;
      int j = 0;

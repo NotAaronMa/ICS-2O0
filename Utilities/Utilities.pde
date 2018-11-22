@@ -28,4 +28,7 @@ class Complex extends Vector2{
   public Complex(int a, int b){
     super(a,b); 
   }
+  public void mul(Complex s){
+    
+  }
 }

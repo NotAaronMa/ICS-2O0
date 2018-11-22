@@ -1,3 +1,15 @@
+/*
+  3 patterns drawn out by a complex function
+*/
+
+void setup(){
+   size(300,400);
+}
+
+void draw(){
+  
+} 
+
 // bunch of utility classes and methods
 // Author Aaron Ma
 
@@ -20,15 +32,28 @@ class Vector2{
     a += v.a;
     b += v.b;
  }
- 
+ public float mag(){
+    return sqrt(a*a + b*b); 
+ }
+ public Vector2 unit(){
+    float mag = mag();
+    return new Vector2(a/mag, b/mag);
+ }
 }
 
 //class defining a complex number
 class Complex extends Vector2{
-  public Complex(int a, int b){
+  public Complex(float a, float b){
     super(a,b); 
   }
-  public void mul(Complex s){
-    
+  //algebraic mul of to compex numbers
+  //(a+bi)(c+di) = ac-bd + adi + bci
+  public Complex prod(Complex s){
+    float a,b,c,d;
+    a = this.a;
+    b = this.b;
+    c = s.a;
+    d = s.b;
+    return new Complex(a*c - b*d, a*d + b*c);
   }
 }

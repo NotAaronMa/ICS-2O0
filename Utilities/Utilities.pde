@@ -1,18 +1,11 @@
 /*
   3 patterns drawn out by a complex function
 */
-
 void setup(){
    size(300,400);
 }
-
-void draw(){
-  
-} 
-
 // bunch of utility classes and methods
 // Author Aaron Ma
-
 //defines a 2 dimensional vector
 class Vector2{
   //components of vector
@@ -40,7 +33,6 @@ class Vector2{
     return new Vector2(a/mag, b/mag);
  }
 }
-
 //class defining a complex number
 class Complex extends Vector2{
   public Complex(float a, float b){

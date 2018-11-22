@@ -36,9 +36,6 @@ void setup(){
    }
    
 }
-
-
-
 public int encodeColor(int r, int g, int b, int a) {
   int c = 0;
   c += r<<16; //left shift by 16 for red channel

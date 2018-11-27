@@ -1,15 +1,22 @@
 void setup(){
-  size(640,640);
+  size(729,729);
+ 
   
-  System.out.println("done");
 }
-
-
+int cl;
+int keyCooldown = 0;
 void draw(){
-  background(255);
+  background();
   noFill();
   
-  carpet(0,5,-3,-3,width,height);
+  if(keyPressed && keyCooldown < 0){
+    cl++;
+    keyCooldown = 10;
+  }
+  cl %= 6;
+  System.out.println(cl);
+  carpet(0,cl,-3,-3,width,height);
+  keyCooldown--;
 }
 
 void carpet(int cl, int ml, int sx, int sy, int ex, int ey){
@@ -19,15 +26,13 @@ void carpet(int cl, int ml, int sx, int sy, int ex, int ey){
   int delta = (ex - sx)/3;
   for(int i = 0; i < 3; i++){
     for(int j = 0; j < 3; j++){
-       int xval = i*delta + sx+1;
-       int yval = j*delta + sy+1;
+       int xval = i*delta + sx;
+       int yval = j*delta + sy;
        if(!((i == 1) && (j== 1))){
-         color(0);
          fill(255);
          rect(xval,yval,delta,delta);
          carpet(cl+1, ml,xval,yval,xval+delta,yval+delta);
-       }
-        
+       }        
     }
   }
 }

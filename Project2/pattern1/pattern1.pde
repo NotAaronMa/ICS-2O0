@@ -6,7 +6,7 @@ void setup(){
 int cl;
 int keyCooldown = 0;
 void draw(){
-  background();
+  background(255);
   noFill();
   
   if(keyPressed && keyCooldown < 0){

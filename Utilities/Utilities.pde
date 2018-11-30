@@ -76,7 +76,7 @@ class col {
   }
   public col mix(col cl, float ratio) {
     int alpha = (int)(((1-ratio) * a + ratio*cl.a)*255);
-    return new col(blendV(r,cl.r,ratio), blendV(g,cl.g,ratio), blendV(g,cl.g,ratio), alpha);
+    return new col(blendV(r,cl.r,ratio), blendV(g,cl.g,ratio), blendV(b,cl.b,ratio), alpha);
   }
   private int blendV(int a, int b, float ratio){
     float a1, b1;
@@ -87,4 +87,5 @@ class col {
     
   }
 }
+
 

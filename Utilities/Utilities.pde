@@ -49,3 +49,42 @@ class Complex extends Vector2{
     return new Complex(a*c - b*d, a*d + b*c);
   }
 }
+
+class col {
+  int r, g, b, a;
+
+  public col(int c) {
+    b = c &255;
+    g = (c >> 8) &255;
+    r = (c >> 16) &255;
+    a = (c >>  24) & 255;
+  }
+  public col(int r, int g, int b, int a) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.a = a;
+  }
+
+  public int encode() {
+    int c = 0;
+    c += r<<16; //left shift by 16 for red channel
+    c += g<<8; //left shift by 8 for green channel
+    c += b;  //blue channel 
+    c+= a << 24; //set alpha channel to 255
+    return c;
+  }
+  public col mix(col cl, float ratio) {
+    int alpha = (int)(((1-ratio) * a + ratio*cl.a)*255);
+    return new col(blendV(r,cl.r,ratio), blendV(g,cl.g,ratio), blendV(g,cl.g,ratio), alpha);
+  }
+  private int blendV(int a, int b, float ratio){
+    float a1, b1;
+    a1 = a/255f;
+    b1 = b/255f;
+    float res = (float)Math.sqrt((1-ratio)*a1*a1 + ratio*b1*b1);
+    return (int)(res * 255);
+    
+  }
+}
+

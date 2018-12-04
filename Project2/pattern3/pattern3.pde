@@ -1,6 +1,3 @@
-
-//pattern 1 but like different
-
 void setup() {
   size(1000, 1000);
   noFill();
@@ -46,12 +43,12 @@ void carpet(int cl, int ml, float sx, float sy, float ex, float ey) {
       }else if(i == 1 && j == 1){
         ellipse(xval +(delta/2) ,yval + (delta/2), delta* 1.413f, delta * 1.413f); 
         carpet(cl+1, ml, xval, yval, xval+delta, yval+delta);
-      }else if( i == 0|| i == 2 || j == 0 || j ==2){
-        //verts.add(xval + delta/2, yval + delta/2);
+      }else{
+        ellipse(xval + delta/2,yval + delta/2 ,delta, delta);
       }
-        
     }
   }
+  
 }
 class pair {
   float a;

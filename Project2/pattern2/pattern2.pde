@@ -13,14 +13,14 @@ void draw() {
     nextKey = System.currentTimeMillis() + 100;
     cl++;
   }
-  cl %= 6;
+  cl %= 5;
   if (cl == 0) {
     cl++;
   }
   
   col[][]col = {
-    {new col(255,0,255,255),new col(255,0,255,255)},
-    {new col(255,0,255,255),new col(255,0,255,255)}
+    {new col(255,255,255,255),new col(255,0,255,255)},
+    {new col(255,255,255,255),new col(255,0,255,255)}
   };
   noStroke();
   carpet(0, cl, 136, 136, 866, 866,col);
@@ -43,7 +43,7 @@ void carpet(int cl, int ml, float sx, float sy, float ex, float ey, col[][]col) 
 
           carpet(cl+1, ml, xval, yval, xval+delta, yval+delta,col);
         }else{
-           fill(255);
+           fill(0);
            rect(xval,yval,delta,delta);
           
         }
@@ -60,14 +60,10 @@ public col[][]grad(col[][]col, int w){
   for(int i = 0; i < w; i++){
      for(int j = 0; j < w; j++){
        double dx,dy;
-       dx = i/w;
-       dy = j/w;
-       
-       
-       float d1 = sqrt((float)(sqr(dx) + sqr(dy)));
-       float d2 = sqrt((float)(sqr(1-dx) + sqr(dy)));
-       
-       a[i][j] = col[0][0].mix(col[1][1], d1).mix(col[0][1].mix(col[0][1], d2), 0.5f);
+       dx = i/(float)w;
+       dy = j/(float)w;
+       float d1 = sqrt((float)((sqr(dx) + sqr(dy))));
+       a[i][j] = col[0][0].mix(col[1][1],1-d1);
      }
   }
 
@@ -103,6 +99,7 @@ class col {
   }
   public col mix(col cl, float ratio) {
     int alpha = (int)(((1-ratio) * a + ratio*cl.a)*255);
+    alpha = 255;
     return new col(blendV(r, cl.r, ratio), blendV(g, cl.g, ratio), blendV(b, cl.b, ratio), alpha);
   }
   private int blendV(int a, int b, float ratio) {

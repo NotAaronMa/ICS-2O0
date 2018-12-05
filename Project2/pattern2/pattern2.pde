@@ -17,34 +17,57 @@ void draw() {
   if (cl == 0) {
     cl++;
   }
-  carpet(0, cl, 136, 136, 866, 866);
+  
+  col[][]col = {
+    {new col(255,0,255,255),new col(255,0,255,255)},
+    {new col(255,0,255,255),new col(255,0,255,255)}
+  };
+  noStroke();
+  carpet(0, cl, 136, 136, 866, 866,col);
+  
+  
 }
 
-void carpet(int cl, int ml, float sx, float sy, float ex, float ey) {
-
+void carpet(int cl, int ml, float sx, float sy, float ex, float ey, col[][]col) {
+  col[][]grad = grad(col,5);
   if (cl != ml) {
     float delta = (ex - sx)/3f;
-    stroke(cl * (255/ml));
+    
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         float xval = (i)*delta + sx;
         float yval = (j)*delta + sy;
         if (!((i == 1) && (j== 1))) {
+          fill(grad[i+1][j+1].encode());
           rect(xval, yval, delta, delta);
 
-          carpet(cl+1, ml, xval, yval, xval+delta, yval+delta);
+          carpet(cl+1, ml, xval, yval, xval+delta, yval+delta,col);
+        }else{
+           fill(255);
+           rect(xval,yval,delta,delta);
+          
         }
       }
     }
   }
 }
+double sqr(double k){
+ return k*k; 
+}
 
-public static col[][]grad(col[][]colors, int w){
+public col[][]grad(col[][]col, int w){
   col[][]a = new col[w][w];
   for(int i = 0; i < w; i++){
      for(int j = 0; j < w; j++){
-       double d1,d2,d3,d4;
+       double dx,dy;
+       dx = i/w;
+       dy = j/w;
        
+       
+       float d1 = sqrt((float)(sqr(dx) + sqr(dy)));
+       float d2 = sqrt((float)(sqr(1-dx) + sqr(dy)));
+       
+       a[i][j] = col[0][0].mix(col[1][1], d1).mix(col[0][1].mix(col[0][1], d2), 0.5f);
      }
   }
 

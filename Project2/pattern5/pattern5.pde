@@ -104,8 +104,6 @@ public col[][]grad(col[]col, int w) {
       a[i][j] = col[0].mix(col[1], 1-d1);
     }
   }
-
-
   return a;
 }
 class col {
@@ -153,4 +151,3 @@ class col {
     return (int)(res * 255) ;
   }
 }
-

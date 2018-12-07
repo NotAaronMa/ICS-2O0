@@ -4,8 +4,6 @@ Date last edited
 */
 void setup() {
   size(1000, 1000);
-
-  
 }
 //current level of the fractal
 int cl;

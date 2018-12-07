@@ -3,7 +3,7 @@ Author Aaron Ma
 Date last edited 
 */
 void setup() {
-  size(1000, 1000);
+  size(830, 830);
 }
 //current level of the fractal
 int cl;
@@ -27,9 +27,9 @@ void draw() {
     cl++;
   }
   //draw the fractal
-  carpet(0, cl, 136, 136, 866, 866);
+  carpet(0, cl, 15, 15, 815, 815);
 }
-
+//render the fractal from (sx, sy) (ex, ey)
 void carpet(int cl, int ml, float sx, float sy, float ex, float ey) {
   //base case is that the current layer is equal to the max layer
   if (cl == ml) {
@@ -38,7 +38,7 @@ void carpet(int cl, int ml, float sx, float sy, float ex, float ey) {
   // the side length of one of the smaller squares
   float delta = (ex - sx)/3f;
   //make the stroke lighter as the level get highter
-  stroke(cl * (255/ml));
+  stroke(cl * (120/ml));
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       //the top left corner of the smaller square is (xval, yval);

@@ -15,7 +15,7 @@ long nextKey;
 int phase;
 void draw() {
   strokeWeight(2);
-  background(255); 
+  background(0); 
   //if a key is pressed and the cooldown on the key is over
   if (keyPressed && nextKey < System.currentTimeMillis()) {
     nextKey = System.currentTimeMillis() + 100;

@@ -1,10 +1,10 @@
 /*
-  Author Aaron Ma
+ Author: Aaron Ma
  date last edited: Dec 7 2018
  Assignment 2 Pattern 2
  */
 void setup() {
-  size(1000, 1000);
+  size(830, 830);
   noFill();
 }
 //current level of the fractal
@@ -51,7 +51,7 @@ void draw() {
     col[0] = new col(255, 255, 255, 255);
     col[1] = new col(0, 0, 0, 255);
   }
-  fractal(0, cl, 136, 136, 866, 866, col);
+  fractal(0, cl, 15, 15, 815, 815, col);
 }
 
 //renders a fractal recursively with a gradient 
@@ -103,21 +103,18 @@ double sqr(double k) {
 //returns a linear gradient between col[0][0] and col[1][1] based on euclidean distance 
 public col[][]grad(col[]col, int w) {
 
-  //make a new gradient
+  //instantiate the new gradient array
   col[][]a = new col[w][w];
   for (int i = 0; i < w; i++) {
     for (int j = 0; j < w; j++) {
       double dx, dy;
-
       dx = i/(float)w;
       dy = j/(float)w;
-      //strength of d2 to d1
+      //strength of d2 to d1 based on euclidean distance
       float d1 = sqrt((float)((sqr(dx) + sqr(dy))));
       a[i][j] = col[0].mix(col[1], 1-d1);
     }
   }
-
-
   return a;
 }
 class col {
@@ -148,6 +145,7 @@ class col {
   public col mix(col cl, float ratio) {
     //blend the two alpha channels
     int alpha = (int)(((1-ratio) * a + ratio*cl.a)*255);
+    //bit of hardcoding because stroke messes up when alpha is any less than 255
     alpha = 255;
     return new col(blendChannel(r, cl.r, ratio), blendChannel(g, cl.g, ratio), blendChannel(b, cl.b, ratio), alpha);
   }

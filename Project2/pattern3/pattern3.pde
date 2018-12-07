@@ -46,7 +46,7 @@ void fractal(int cl, int ml, float sx, float sy, float ex, float ey) {
       //the top left corner of the smaller square is (xval, yval);
       float xval = (i)*delta + sx;
       float yval = (j)*delta + sy;
-      stroke(200);
+      stroke(100);
       if ((i == 0 || i == 2) && (j== 0 || j == 2)) {
         //draw square
         rect(xval, yval, delta, delta);

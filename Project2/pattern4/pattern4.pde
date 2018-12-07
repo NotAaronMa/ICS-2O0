@@ -14,6 +14,7 @@ long nextKey;
 //the current phase used to change color;
 int phase;
 void draw() {
+  strokeWeight(2);
   background(255); 
   //if a key is pressed and the cooldown on the key is over
   if (keyPressed && nextKey < System.currentTimeMillis()) {
@@ -56,16 +57,12 @@ void draw() {
 
 //renders a fractal recursively with a gradient 
 //dimension of ln(8)/ln(3)
-void fractal(int cl, int ml, float sx, float sy, float ex, float ey, col[]col) {
-  
+void fractal(int cl, int ml, float sx, float sy, float ex, float ey, col[]col) {  
   if (cl == ml) {
     return;
   }
   float delta = (ex - sx)/3f;
-  
   col[][]grad = grad(col, 5);
-  
-  
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       //the top left corner of the smaller square is (xval, yval);

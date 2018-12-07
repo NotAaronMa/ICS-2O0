@@ -51,7 +51,6 @@ void fractal(int cl, int ml, float sx, float sy, float ex, float ey, col[]col) {
   col[][]grad = grad(col, 5);
   if (cl <= ml) {
     float delta = (ex - sx)/3f;
-
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         //top left corner of current fractal

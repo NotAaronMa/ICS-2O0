@@ -26,7 +26,6 @@ void draw() {
   if (cl == 0) {
     //inc phase
     phase++;
-   
   }
   //make sure phase is between 0 and 5
   phase %= 5;

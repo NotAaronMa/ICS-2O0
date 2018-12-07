@@ -1,0 +1,30 @@
+html{
+    margin-left: 3%;
+    font-family: Consolas;
+    font-size: 12px;
+}
+.grid-container{
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-columns: 45% 45%;
+    grid-collumn-gap: 2.5%
+    width:100%;
+}
+.website-banner{
+	display: grid;
+	grid-collumn-gap: 0px;
+	grid-template-columns: 
+	
+}
+.article-body{
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-columns: 45% 45%;
+    grid-collumn-gap: 2.5%
+    width:100%;
+
+}
+
+.grid-item{
+	
+}

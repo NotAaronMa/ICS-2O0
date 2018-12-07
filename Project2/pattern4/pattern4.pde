@@ -1,7 +1,7 @@
 /*
  Author: Aaron Ma
  date last edited: Dec 7 2018
- Assignment 2 Pattern 2
+ Assignment 2 Pattern 4
  */
 void setup() {
   size(830, 830);

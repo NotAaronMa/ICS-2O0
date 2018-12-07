@@ -1,10 +1,10 @@
 /*
-  Author Aaron Ma
+ Author: Aaron Ma
  date last edited: Dec 7 2018
  Assignment 2 Pattern 2
  */
 void setup() {
-  size(1000, 1000);
+  size(830, 830);
   noFill();
 }
 //current level of the fractal
@@ -20,13 +20,12 @@ void draw() {
     nextKey = System.currentTimeMillis() + 100;
     cl++;
   }
-  cl %= 5;
+  cl %= 5 ;
   //if current fractal layer is zero
   if (cl == 0) {
     //inc phase
     phase++;
-    //inc layer
-    cl ++;
+   
   }
   //make sure phase is between 0 and 5
   phase %= 5;
@@ -52,43 +51,45 @@ void draw() {
     col[0] = new col(255, 255, 255, 255);
     col[1] = new col(0, 0, 0, 255);
   }
-  fractal(0, cl, 136, 136, 866, 866, col);
+  fractal(0, cl, 15, 15, 815, 815, col);
 }
 
 //renders a fractal recursively with a gradient 
 //dimension of ln(8)/ln(3)
 void fractal(int cl, int ml, float sx, float sy, float ex, float ey, col[]col) {
   
-  if (cl > ml) {
+  if (cl == ml) {
     return;
   }
   float delta = (ex - sx)/3f;
+  
   col[][]grad = grad(col, 5);
+  
+  
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      //top left corner of current fractal
+      //the top left corner of the smaller square is (xval, yval);
       float xval = (i)*delta + sx;
       float yval = (j)*delta + sy;
-      //gradation of the next fractal call
       col[]cl1 = new col[2];
       cl1[0] = grad[i+1][j+1];
       cl1[1] = grad[i][j];
-      stroke(grad[i][j].encode());
+      stroke(grad[i+1][j+1].encode());
       if ((i == 0 || i == 2) && (j== 0 || j == 2)) {
         //draw square
         rect(xval, yval, delta, delta);
         //recursive call of carpet inside the square 
         fractal(cl+1, ml, xval, yval, xval+delta, yval+delta, cl1);
-      } else if (i == 1 && j == 1 ) {
+      }else if(i == 1 && j == 1){
         //draw a circle touching the corners of the corner squares
         ellipse(xval +delta/2, yval + delta/2, delta*1.414f, delta*1.414f);
         //draw the fractal inside the circle
         fractal(cl+1, ml, xval, yval, xval+delta, yval+delta, cl1);
-      } else {
-        stroke(grad[i][j].encode());
+    
+      }else{
+        //draw ellipse tangent to the 2 corner squares next to it
         ellipse(xval +delta/2, yval + delta/2, delta, delta);
       }
-    
     }
   }
 }
@@ -102,21 +103,18 @@ double sqr(double k) {
 //returns a linear gradient between col[0][0] and col[1][1] based on euclidean distance 
 public col[][]grad(col[]col, int w) {
 
-  //make a new gradient
+  //instantiate the new gradient array
   col[][]a = new col[w][w];
   for (int i = 0; i < w; i++) {
     for (int j = 0; j < w; j++) {
       double dx, dy;
-
       dx = i/(float)w;
       dy = j/(float)w;
-      //strength of d2 to d1
+      //strength of d2 to d1 based on euclidean distance
       float d1 = sqrt((float)((sqr(dx) + sqr(dy))));
       a[i][j] = col[0].mix(col[1], 1-d1);
     }
   }
-
-
   return a;
 }
 class col {
@@ -147,7 +145,8 @@ class col {
   public col mix(col cl, float ratio) {
     //blend the two alpha channels
     int alpha = (int)(((1-ratio) * a + ratio*cl.a)*255);
-
+    //bit of hardcoding because stroke messes up when alpha is any less than 255
+    alpha = 255;
     return new col(blendChannel(r, cl.r, ratio), blendChannel(g, cl.g, ratio), blendChannel(b, cl.b, ratio), alpha);
   }
 

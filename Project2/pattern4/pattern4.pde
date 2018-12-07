@@ -1,4 +1,3 @@
-
 /*
   Author Aaron Ma
  date last edited: Dec 7 2018
@@ -32,7 +31,6 @@ void draw() {
   //make sure phase is between 0 and 5
   phase %= 5;
   col[]col = new col[2];
-  noStroke();
   // green to blue
   if (phase == 1) {
     col[0] = new col(25, 25, 255, 255);
@@ -60,10 +58,9 @@ void draw() {
 //renders a fractal recursively with a gradient 
 //dimension of ln(8)/ln(3)
 void fractal(int cl, int ml, float sx, float sy, float ex, float ey, col[]col) {
-
-  if(cl == ml){
-     return; 
-    
+  
+  if (cl > ml) {
+    return;
   }
   float delta = (ex - sx)/3f;
   col[][]grad = grad(col, 5);
@@ -82,16 +79,16 @@ void fractal(int cl, int ml, float sx, float sy, float ex, float ey, col[]col) {
         rect(xval, yval, delta, delta);
         //recursive call of carpet inside the square 
         fractal(cl+1, ml, xval, yval, xval+delta, yval+delta, cl1);
-      } else if (i == 1 && j == 1) {
+      } else if (i == 1 && j == 1 ) {
         //draw a circle touching the corners of the corner squares
         ellipse(xval +delta/2, yval + delta/2, delta*1.414f, delta*1.414f);
         //draw the fractal inside the circle
         fractal(cl+1, ml, xval, yval, xval+delta, yval+delta, cl1);
       } else {
-        //System.out.println();
-        //draw ellipse tangent to the 2 corner squares next to it
+        stroke(grad[i][j].encode());
         ellipse(xval +delta/2, yval + delta/2, delta, delta);
       }
+    
     }
   }
 }

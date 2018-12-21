@@ -1,0 +1,11 @@
+A data scientist uses a combination of techniques from both Statistics and Computer science to get useful information out of a large data set.
+For instance, data scientists could use a neural network in order to recognize patterns in search queries to develop an algorithm that matches
+advertisements to consumers.
+
+Essential skills 
+Problem solving: Required to create algorithms
+Finding information: A data scientest needs to gather data to anylyse.
+Data Analysis: A data Scientist has to develop algorithms to analyse data. 
+Thus one must know the techniques well.
+
+
